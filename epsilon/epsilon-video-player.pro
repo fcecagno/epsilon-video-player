@@ -9,10 +9,13 @@ QT       += core gui
 TARGET = epsilon-video-player
 TEMPLATE = app
 
+LIBS += -lavcodec -lavformat -lswscale
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    VideoLoader.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    VideoLoader.h
 
 FORMS    += mainwindow.ui
