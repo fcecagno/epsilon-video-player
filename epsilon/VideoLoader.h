@@ -14,6 +14,9 @@ extern "C" {
 #include <QString>
 #include <QQueue>
 #include <QMap>
+#include <QThread>
+#include <QMutex>
+#include <QSemaphore>
 
 class Frame {
 private:
@@ -24,20 +27,49 @@ public:
         : data(data)
         , timestamp(timestamp)
     {
-
     }
+
+    QByteArray* getData() { return data; }
+    quint32 getTimestamp() { return timestamp; }
+};
+
+class VideoFrame : public Frame {
+private:
+    int width, height;
+public:
+    VideoFrame(QByteArray* data, int width, int height, quint32 timestamp)
+        : Frame(data, timestamp)
+        , width(width)
+        , height(height)
+    {
+    }
+
+    int getWidth() { return width; }
+    int getHeight() { return height; }
+};
+
+class AudioFrame : public Frame {
+
 };
 
 class MediaHandler {
 private:
     int streamIndex;
     QQueue<Frame*> queue;
+    QMutex mQueue;
+    QSemaphore availableFrames;
     quint32 mspf;
     AVCodec* codec;
     AVCodecContext* codecContext;
     int codecType;
     AVFrame* frame;
     int16_t samples[AVCODEC_MAX_AUDIO_FRAME_SIZE];
+
+    void enqueue(Frame* frame) {
+        QMutexLocker locker(&mQueue);
+        queue.push_back(frame);
+        availableFrames.release();
+    }
 
 public:
     MediaHandler(AVFormatContext* context, int streamIndex)
@@ -103,7 +135,7 @@ public:
 
             totalUsed += used;
             if (gotPicture) { // trata frame capturado
-                qDebug() << "\\o\\";
+//                qDebug() << "\\o\\";
 
                 PixelFormat dstFormat = PIX_FMT_RGB24;
                 AVFrame* deinterlacedFrame = avcodec_alloc_frame();
@@ -142,7 +174,7 @@ public:
                 sws_freeContext(scaleCtx);
 
                 Frame* myFrame = new Frame(outBufferFormatted, mspf * p->dts);
-                queue.push_back(myFrame);
+                enqueue(myFrame);
 
                 free(outBufferDeinterlaced);
                 av_free(deinterlacedFrame);
@@ -172,29 +204,56 @@ public:
 
             totalUsed += used;
             if (outBufferSize > 0) { // trata o frame capturado
-                qDebug() << "/o/";
+//                qDebug() << "/o/";
 
                 QByteArray* buffer = new QByteArray((char*) samples, outBufferSize);
                 Frame* myFrame = new Frame(buffer, mspf * p->dts);
+                mQueue.lock();
                 queue.push_back(myFrame);
+                mQueue.unlock();
             }
         }
     }
+
+    Frame* dequeue() {
+        QMutexLocker locker(&mQueue);
+        Frame* frame = NULL;
+        if (availableFrames.tryAcquire()) {
+            frame = queue.first();
+            queue.removeFirst();
+        }
+        return frame;
+    }
+
+    Frame* dequeueCond() {
+        availableFrames.acquire();
+        QMutexLocker locker(&mQueue);
+        Frame* frame = queue.first();
+        queue.removeFirst();
+        return frame;
+    }
+
 };
 
-class VideoLoader {
+class VideoLoader : public QThread {
 private:
     QMap<int, MediaHandler*> mediaHandler;
+    QString filename;
 
+protected:
+    void run();
 public:
 
-    VideoLoader();
+    VideoLoader(const QString& filename)
+        : filename(filename)
+    {
+        av_register_all();
+    }
+
     ~VideoLoader() {
         for (QMap<int, MediaHandler*>::iterator it = mediaHandler.begin(); it != mediaHandler.end(); ++it)
             delete it.value();
     }
-
-    void load(const QString& filename);
 
 };
 

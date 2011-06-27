@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui opengl
 
 TARGET = epsilon-video-player
 TEMPLATE = app
@@ -16,6 +16,8 @@ SOURCES += main.cpp\
     VideoLoader.cpp
 
 HEADERS  += mainwindow.h \
-    VideoLoader.h
+    VideoLoader.h \
+    VideoDrawer.h \
+    VideoGL.h
 
 FORMS    += mainwindow.ui

@@ -1,10 +1,6 @@
 #include "VideoLoader.h"
 
-VideoLoader::VideoLoader() {
-    av_register_all();
-}
-
-void VideoLoader::load(const QString& filename) {
+void VideoLoader::run() {
     AVFormatContext* formatContext;
 
     int ret = av_open_input_file(&formatContext, filename.toAscii(), NULL, 0, NULL);
@@ -34,5 +30,5 @@ void VideoLoader::load(const QString& filename) {
         av_free_packet(&packet);
     }
     av_close_input_file(formatContext);
-    qDebug() << "Operação concluída";
+    qDebug() << "Operacao concluida";
 }

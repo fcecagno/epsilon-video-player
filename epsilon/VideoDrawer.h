@@ -1,0 +1,4 @@
+#ifndef VIDEODRAWER_H
+#define VIDEODRAWER_H
+
+#endif // VIDEODRAWER_H
