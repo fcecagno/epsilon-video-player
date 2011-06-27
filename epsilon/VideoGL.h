@@ -12,7 +12,7 @@ private:
 
 public:
 
-    VideoGL(QWidget* parent)
+    VideoGL(QWidget* parent = 0)
         : QGLWidget(parent)
         , frame(NULL)
     {

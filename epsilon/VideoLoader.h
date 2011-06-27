@@ -233,28 +233,57 @@ public:
         return frame;
     }
 
+    int getType() { return codecType; }
+
 };
 
-class VideoLoader : public QThread {
+class MediaLoader : public QThread {
 private:
-    QMap<int, MediaHandler*> mediaHandler;
+    AVFormatContext* formatContext;
+    QVector<MediaHandler*> mediaHandler;
     QString filename;
 
 protected:
     void run();
 public:
 
-    VideoLoader(const QString& filename)
+    MediaLoader(const QString& filename)
         : filename(filename)
     {
         av_register_all();
+
+        int ret = av_open_input_file(&formatContext, filename.toAscii(), NULL, 0, NULL);
+        if (ret != 0) {
+            printf("Erro %d ao abrir o arquivo\n", AVERROR(ret));
+            return;
+        }
+
+        ret = av_find_stream_info(formatContext);
+        if (ret < 0) {
+            printf("Erro %d ao recuperar informações de stream\n", AVERROR(ret));
+            return;
+        }
+
+        dump_format(formatContext, 0, filename.toAscii(), 0);
+
+        mediaHandler.clear();
+        mediaHandler.resize(formatContext->nb_streams);
+        for (int i = 0; i < formatContext->nb_streams; ++i)
+            mediaHandler[i] = new MediaHandler(formatContext, i);
     }
 
-    ~VideoLoader() {
-        for (QMap<int, MediaHandler*>::iterator it = mediaHandler.begin(); it != mediaHandler.end(); ++it)
-            delete it.value();
+    ~MediaLoader() {
+        for (QVector<MediaHandler*>::iterator it = mediaHandler.begin(); it != mediaHandler.end(); ++it)
+            delete (*it);
+        av_close_input_file(formatContext);
     }
 
+    MediaHandler* getVideoHandler() {
+        for (QVector<MediaHandler*>::iterator it = mediaHandler.begin(); it != mediaHandler.end(); ++it)
+            if ((*it)->getType() == CODEC_TYPE_VIDEO)
+                return (*it);
+        return NULL;
+    }
 };
 
 #endif // VIDEOLOADER_H

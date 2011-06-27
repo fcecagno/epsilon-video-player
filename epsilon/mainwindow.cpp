@@ -3,13 +3,13 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    videoWidget(new VideoGL(this))
+    ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    loader = new VideoLoader("/home/felipe/Codes/epsilon-video-player/The Killers - Human.avi");
-    loader->start();
+    videoWidget = new VideoGL(parent);
+    videoDrawer = new VideoDrawer(videoWidget, "/home/felipe/Codes/epsilon-video-player/The Killers - Human.avi");
+    videoDrawer->start();
 }
 
 MainWindow::~MainWindow()

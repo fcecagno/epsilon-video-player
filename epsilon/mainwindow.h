@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "VideoLoader.h"
+#include "VideoDrawer.h"
 #include "VideoGL.h"
 
 namespace Ui {
@@ -20,8 +20,8 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    VideoLoader* loader;
     VideoGL* videoWidget;
+    VideoDrawer* videoDrawer;
 };
 
 #endif // MAINWINDOW_H
