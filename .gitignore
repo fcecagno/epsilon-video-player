@@ -1,2 +1,12 @@
 bin/
+obj/
+third/
+source/generatedfiles/
+sourceold/generatedfiles/
+*.vcxproj*
+*ipch*
+*.sln
+*.suo
+*.sdf
+*.opensdf
 *.user
