@@ -83,13 +83,13 @@ public:
             return;
         }
 
-        codec = avcodec_find_decoder(context->streams[streamIndex]->codec->codec_id);
+        codecContext = context->streams[streamIndex]->codec;
+        codec = avcodec_find_decoder(codecContext->codec_id);
         if (!codec) {
             qDebug("Codec %d nao suportado", context->streams[streamIndex]->codec->codec_id);
             return;
         }
 
-        codecContext = avcodec_alloc_context();
         if (avcodec_open(codecContext, codec) < 0) {
             qDebug() << "Falha ao abrir o codec";
             return;
