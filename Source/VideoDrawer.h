@@ -11,19 +11,21 @@ private:
     VideoGL* videoWidget;
 
 protected:
-    void run() {
-        MediaHandler* videoHandler = loader->getVideoHandler();
-        while (true) {
-            VideoFrame* frame = (VideoFrame*) videoHandler->dequeueCond();
-            videoWidget->present(frame);
-        }
-    }
+//    void run() {
+//        MediaHandler* videoHandler = loader->getVideoHandler();
+//        while (true) {
+////            VideoFrame* frame = (VideoFrame*) videoHandler->dequeueCond();
+////            videoWidget->present(frame);
+//            videoWidget->present(NULL);
+//        }
+//    }
 
 public:
     VideoDrawer(VideoGL* widget, const QString& filename)
-        : videoWidget(widget)
-        , loader(new MediaLoader(filename))
+        : loader(new MediaLoader(filename))
+        , videoWidget(widget)
     {
+        videoWidget->setVideoLoader(loader->getVideoHandler());
         loader->start();
     }
 };

@@ -66,6 +66,7 @@ private:
     int16_t samples[AVCODEC_MAX_AUDIO_FRAME_SIZE];
 
     void enqueue(Frame* frame) {
+        qDebug() << "MediaHandler::enqueue " << availableFrames.available();
         QMutexLocker locker(&mQueue);
         queue.push_back(frame);
         availableFrames.release();
@@ -101,6 +102,7 @@ public:
     }
 
     void handlePacket(AVPacket* p) {
+        qDebug() << "MediaHandler::handlePacket";
         switch(codecType) {
             case CODEC_TYPE_VIDEO:
                 handlePacketVideo(p);
@@ -115,6 +117,7 @@ public:
     }
 
     void handlePacketVideo(AVPacket* p) {
+        qDebug() << "MediaHandler::handlePacketVideo";
         int gotPicture;
         int totalUsed = 0;
         int inBufferSize = p->size;
@@ -168,12 +171,16 @@ public:
                     qDebug() << "Não foi possível criar o contexto de transformação do frame";
                     return;
                 }
-                sws_scale(scaleCtx, deinterlacedFrame->data,
-                          deinterlacedFrame->linesize, 0, codecContext->height,
+                sws_scale(scaleCtx,
+                          deinterlacedFrame->data, deinterlacedFrame->linesize,
+                          0, codecContext->height,
                           formattedFrame->data, formattedFrame->linesize);
                 sws_freeContext(scaleCtx);
 
-                Frame* myFrame = new Frame(outBufferFormatted, mspf * p->dts);
+                VideoFrame* myFrame = new VideoFrame(outBufferFormatted,
+                                                     codecContext->width,
+                                                     codecContext->height,
+                                                     mspf * p->dts);
                 enqueue(myFrame);
 
                 free(outBufferDeinterlaced);
@@ -216,6 +223,7 @@ public:
     }
 
     Frame* dequeue() {
+        qDebug() << "MediaHandler::dequeue " << availableFrames.available();
         QMutexLocker locker(&mQueue);
         Frame* frame = NULL;
         if (availableFrames.tryAcquire()) {
@@ -226,6 +234,7 @@ public:
     }
 
     Frame* dequeueCond() {
+        qDebug() << "MediaHandler::dequeueCond " << availableFrames.available();
         availableFrames.acquire();
         QMutexLocker locker(&mQueue);
         Frame* frame = queue.first();
@@ -250,6 +259,7 @@ public:
     MediaLoader(const QString& filename)
         : filename(filename)
     {
+        qDebug() << "MediaLoader()";
         av_register_all();
 
         int ret = av_open_input_file(&formatContext, filename.toAscii(), NULL, 0, NULL);
