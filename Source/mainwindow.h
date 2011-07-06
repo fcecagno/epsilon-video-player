@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "VideoDrawer.h"
 #include "VideoGL.h"
 
 namespace Ui {
@@ -14,14 +13,15 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+public slots:
+	void load();
 
 private:
     Ui::MainWindow *ui;
-
-    VideoGL* videoWidget;
-    VideoDrawer* videoDrawer;
+    MediaLoader *loader;
 };
 
 #endif // MAINWINDOW_H

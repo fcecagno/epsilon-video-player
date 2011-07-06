@@ -12,14 +12,7 @@ int main(int argc, char *argv[])
 #endif
 
     QApplication a(argc, argv);
-//    MainWindow w;
-//    w.show();
-    VideoGL videoWidget(0);
-//    a.setActiveWindow(videoWidget);
-    videoWidget.resize(500,500);
-    videoWidget.show();
-    VideoDrawer videoDrawer(&videoWidget, "../Data/Recitation13.wmv");
-//    videoDrawer.start();
-
+    MainWindow w;
+    w.show();
     return a.exec();
 }
