@@ -36,6 +36,7 @@ public:
 class VideoFrame : public Frame {
 private:
     int width, height;
+	int posX, posY;
 public:
     VideoFrame(QByteArray* data, int width, int height, quint32 timestamp)
         : Frame(data, timestamp)
@@ -46,6 +47,8 @@ public:
 
     int getWidth() { return width; }
     int getHeight() { return height; }
+	int getPosX() { return posX; }
+    int getPosY() { return posY; }
 };
 
 class AudioFrame : public Frame {

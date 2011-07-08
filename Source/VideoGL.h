@@ -5,8 +5,11 @@
 #include <gl/glew.h>
 #endif
 
-#include <QtOpenGL/QGLWidget>
 #include <iostream>
+#include <RX/mat4.h>
+#include <QtOpenGL/QGLWidget>
+#include "Homography.h"
+#include "KLTCorresp.h"
 #include "VideoLoader.h"
 
 class VideoGL : public QGLWidget 
@@ -15,9 +18,12 @@ class VideoGL : public QGLWidget
 
 private:
     MediaHandler* loader;
-    VideoFrame* frame;
+    VideoFrame* frame, *oldFrame;
     QMutex mFrame;
     int _width, _height;
+
+	KLTCorresp _klt;
+	Homography _homography;
 
 public:
 
@@ -29,18 +35,7 @@ public:
         startTimer(20);
     }
 
-    void timerEvent(QTimerEvent *)
-    {
-		// hack
-		static int hitCount = 0;
-        if (loader) {
-			// hack
-			++hitCount;
-			if(hitCount < 1038)
-				frame = (VideoFrame*) loader->dequeueCond();
-            update();
-        }
-    }
+    void timerEvent(QTimerEvent *);
 
     void setVideoLoader(MediaHandler* loader) {
         this->loader = loader;
