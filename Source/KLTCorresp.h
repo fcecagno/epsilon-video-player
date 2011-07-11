@@ -13,8 +13,11 @@ public:
 	KLTCorresp();
 	~KLTCorresp();
 
-	void findCorresp(uchar *img1, uchar *img2, int w, int h, vector<pair<int,int>> *f1, vector<pair<int,int>> *f2);
+	void findCorresp(uchar *img1, uchar *img2, int w, int h);
 	void print(string filename);
+
+	vector<pair<int,int>> getF1() { return f1; }
+	vector<pair<int,int>> getF2() { return f2; }
 
 private:
 	KLT_TrackingContext tc;

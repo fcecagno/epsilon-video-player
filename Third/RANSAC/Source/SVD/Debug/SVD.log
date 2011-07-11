@@ -1,0 +1,45 @@
+﻿Build started 7/6/2011 12:58:42 PM.
+     1>Project "C:\Rosalia\NavigatableVideos\Third\RANSAC\Source\SVD\SVD.vcxproj" on node 3 (rebuild target(s)).
+     1>PrepareForBuild:
+         Creating directory "C:\Rosalia\NavigatableVideos\Third\RANSAC\Source\Debug\".
+       InitializeBuildStatus:
+         Creating "Debug\SVD.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ap.cpp bdsvd.cpp bidiagonal.cpp blas.cpp ialglib.cpp lq.cpp qr.cpp reflections.cpp rotations.cpp svd.cpp
+         svd.cpp
+     1>c:\rosalia\navigatablevideos\third\ransac\source\svd\svd.cpp(102): warning C4101: 'sm' : unreferenced local variable
+     1>c:\rosalia\navigatablevideos\third\ransac\source\svd\svd.cpp(101): warning C4101: 'im1' : unreferenced local variable
+     1>c:\rosalia\navigatablevideos\third\ransac\source\svd\svd.cpp(368): warning C4101: 'sm' : unreferenced local variable
+     1>c:\rosalia\navigatablevideos\third\ransac\source\svd\svd.cpp(367): warning C4101: 'im1' : unreferenced local variable
+         rotations.cpp
+         reflections.cpp
+         qr.cpp
+         lq.cpp
+         ialglib.cpp
+         blas.cpp
+         bidiagonal.cpp
+     1>c:\rosalia\navigatablevideos\third\ransac\source\svd\bidiagonal.cpp(91): warning C4101: 'j' : unreferenced local variable
+         bdsvd.cpp
+         ap.cpp
+         Generating Code...
+       Lib:
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"C:\Rosalia\NavigatableVideos\Third\RANSAC\Source\Debug\SVD.lib" /NOLOGO Debug\ap.obj
+         Debug\bdsvd.obj
+         Debug\bidiagonal.obj
+         Debug\blas.obj
+         Debug\ialglib.obj
+         Debug\lq.obj
+         Debug\qr.obj
+         Debug\reflections.obj
+         Debug\rotations.obj
+         Debug\svd.obj
+     1>ialglib.obj : warning LNK4221: This object file does not define any previously undefined public symbols, so it will not be used by any link operation that consumes this library
+         SVD.vcxproj -> C:\Rosalia\NavigatableVideos\Third\RANSAC\Source\Debug\SVD.lib
+       FinalizeBuildStatus:
+         Deleting file "Debug\SVD.unsuccessfulbuild".
+         Touching "Debug\SVD.lastbuildstate".
+     1>Done Building Project "C:\Rosalia\NavigatableVideos\Third\RANSAC\Source\SVD\SVD.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:07.98

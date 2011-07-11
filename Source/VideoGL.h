@@ -2,13 +2,14 @@
 #define VIDEOGL_H
 
 #ifdef _WIN32
-#include <gl/glew.h>
+//#include <gl/glew.h>
 #endif
 
 #include <iostream>
 #include <RX/mat4.h>
 #include <QtOpenGL/QGLWidget>
 #include "Homography.h"
+#include "Homography2.h"
 #include "KLTCorresp.h"
 #include "VideoLoader.h"
 
@@ -24,14 +25,17 @@ private:
 
 	KLTCorresp _klt;
 	Homography _homography;
+	Homography2 _homography2;
 
 public:
 
     VideoGL(QWidget* parent = 0)
         : QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
         , frame(NULL)
+		, oldFrame(NULL)
         , loader(NULL)
     {
+		_homography2.load("results.txt");
         startTimer(20);
     }
 
@@ -43,8 +47,7 @@ public:
 
     void initializeGL() 
 	{
-    }
-
+    } 
 
     void present(VideoFrame* frame) 
 	{

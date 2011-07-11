@@ -49,6 +49,8 @@ public:
     int getHeight() { return height; }
 	int getPosX() { return posX; }
     int getPosY() { return posY; }
+	void setPosX(int newposX) { posX = newposX; }
+    void setPosY(int newposY) { posY = newposY; }
 };
 
 class AudioFrame : public Frame {

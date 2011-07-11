@@ -140,8 +140,7 @@ KLT_TrackingContext KLTCreateTrackingContext()
  *
  */
 
-KLT_FeatureList KLTCreateFeatureList(
-  int nFeatures)
+KLT_FeatureList KLTCreateFeatureList(int nFeatures)
 {
   KLT_FeatureList fl;
   KLT_Feature first;

@@ -418,7 +418,6 @@ void Ransac::fitHomography(matd &x1, matd &x2, int noe, mat3 &H)
 		A[3*i+2][6] =					A[3*i+2][7] =					A[3*i+2][8] = 0;
 	}
 
-	/*
 	ap::real_2d_array a;
     ap::real_2d_array u;
     ap::real_2d_array vt;
@@ -451,7 +450,6 @@ void Ransac::fitHomography(matd &x1, matd &x2, int noe, mat3 &H)
 	{
 			//Fail
 	}
-	*/
 }
 
 /**
