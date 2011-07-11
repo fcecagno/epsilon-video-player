@@ -41,7 +41,7 @@ int main()
 	
 	mat3 T1, T2, H, H_temp;
 
-	for(int frame = 198; frame <= 1036; ++frame)
+	for(int frame = 497; frame <= 1036; ++frame)
 	{
 		string str("corresp1/corresp");
 		char buf[10];
