@@ -33,5 +33,6 @@ RX::vec2 Homography2::transform(int frame, RX::vec2 vec)
 	if(frame > _homography.size()-1)
 		return vec;
 
-	return RX::vec2(vec.x+_homography[frame].at(2, 0), vec.y+_homography[frame].at(2, 1));
+	RX::vec2 res = RX::vec2(vec.x-_homography[frame].at(2, 0), vec.y-_homography[frame].at(2, 1));
+	return res;
 }

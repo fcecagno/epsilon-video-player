@@ -503,7 +503,7 @@ void Ransac::getInliers(matd &x1, matd &x2, int noe, mat3 &H, double t, vector<i
 		invHx2[2][i]	= 1.0;
 	}
 
-	double d2[100];
+	double d2[1000];
 	noi = 0;
 	noo = 0;
 	for(int i=0; i<noe; i++)

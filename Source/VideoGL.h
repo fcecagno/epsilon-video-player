@@ -26,6 +26,7 @@ private:
 	KLTCorresp _klt;
 	Homography _homography;
 	Homography2 _homography2;
+	GLuint tex;
 
 public:
 
@@ -36,7 +37,7 @@ public:
         , loader(NULL)
     {
 		_homography2.load("results.txt");
-        startTimer(20);
+        startTimer(50);
     }
 
     void timerEvent(QTimerEvent *);
@@ -47,6 +48,7 @@ public:
 
     void initializeGL() 
 	{
+		glGenTextures(1, &tex);
     } 
 
     void present(VideoFrame* frame) 

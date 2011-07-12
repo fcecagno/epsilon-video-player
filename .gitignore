@@ -1,5 +1,6 @@
 bin/
 obj/
+third/sift/match/debug
 source/generatedfiles/
 sourceold/generatedfiles/
 *.vcxproj*

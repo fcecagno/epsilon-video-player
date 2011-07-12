@@ -91,7 +91,7 @@ mat4 mat4::operator-=(const mat4 &other)
 		}
 	}
 	return *this;
-}
+} 
 
 mat4 mat4::operator!() const
 {

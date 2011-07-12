@@ -41,9 +41,12 @@ int main()
 	
 	mat3 T1, T2, H, H_temp;
 
-	for(int frame = 497; frame <= 1036; ++frame)
+	string folder = "correspSIFTa";
+	ofstream results;
+	results.open(folder+"/results.txt");
+	for(int frame = 1; frame <= 1036; ++frame)
 	{
-		string str("corresp1/corresp");
+		string str(folder+"/corresp");
 		char buf[10];
 		sprintf(buf, "%d", frame);
 		str += buf;
@@ -142,8 +145,6 @@ int main()
 				cout << "fail" << endl;
 			}
 
-			ofstream results;
-			results.open("corresp1/results.txt",ios::out|ios::app);
 			results.setf(ios::fixed, ios::floatfield);
 			results.setf(ios::showpoint);
 
@@ -157,15 +158,11 @@ int main()
 				}
 				results << endl;
 			}
-
-			//For More than One Homography, 
-			//u can call the algorithm again 
-			//using the outliers as Input
-			results.close();
 		}
 		in.close();
 		cout << frame << endl;
 	}
+	results.close();
 
 	return 0;
 }

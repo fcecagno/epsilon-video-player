@@ -3,7 +3,7 @@
 
 KLTCorresp::KLTCorresp()
 {
-	nFeatures = 100;
+	nFeatures = 500;
 	tc = KLTCreateTrackingContext();
 	fl = KLTCreateFeatureList(nFeatures);
 }
