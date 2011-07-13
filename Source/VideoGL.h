@@ -45,8 +45,15 @@ public:
     }
 
     void initializeGL() 
-	{
-		glGenTextures(1, &tex);
+    {
+        glClearColor (0.0, 0.0, 0.0, 0.0);
+        glShadeModel(GL_FLAT);
+        glEnable(GL_DEPTH_TEST);
+
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+        glGenTextures( 1, &tex );
+        glBindTexture( GL_TEXTURE_2D, tex );
     } 
 
     void present(VideoFrame* frame) 

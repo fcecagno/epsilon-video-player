@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
 	// menu
 	connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(load()));
 	connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(quit()));
+        // \todo remove for the final version
+        load();
 }
 
 MainWindow::~MainWindow()
@@ -24,7 +26,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::load()
 {
-	QString filename = QFileDialog::getOpenFileName(this->parentWidget(), tr("Open File"), QDir::currentPath());
+        // \todo uncomment this and comment the next line for the final version
+//	QString filename = QFileDialog::getOpenFileName(this->parentWidget(), tr("Open File"), QDir::currentPath());
+        QString filename = "../Data/Recitation13.wmv";
 	if(!filename.isEmpty()) {
 		loader = new MediaLoader(filename);
 		loader->start();
