@@ -148,7 +148,7 @@ int main()
 			results.setf(ios::fixed, ios::floatfield);
 			results.setf(ios::showpoint);
 
-			results<< noi << endl;
+			results << noi << " " << frame << endl;
 
 			for(int i=0; i<3; i++) {
 				for(int j=0; j<3; j++) {

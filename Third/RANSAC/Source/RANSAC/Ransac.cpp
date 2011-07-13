@@ -214,7 +214,7 @@ void Ransac::MainLoop(matd& x1, matd& x2, int noe, int mnop, double t, mat3 &H, 
 	noi = 0;	//Initial Number of Inliers
 	noo = 0;	//Initial Number of Inliers
 
-  while (N > tcount && tcount <= maxNOT)
+  while (tcount <= maxNOT)
   {
     degenerate = true;
     count = 1;

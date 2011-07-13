@@ -31,7 +31,7 @@ Copyright (C) 2006-2010  Rob Hess <hess@eecs.oregonstate.edu>
 
 int main( int argc, char** argv )
 {
-	IplImage* img1, * img2, * stacked;
+	IplImage *img1, * img2, *img_chk, * stacked;
 	struct feature* feat1, * feat2, * feat;
 	struct feature** nbrs;
 	struct kd_node* kd_root;
@@ -39,12 +39,13 @@ int main( int argc, char** argv )
 	double d0, d1;
 	int n1, n2, k, i, m = 0;
 	FILE *out = fopen(argv[3], "w");
-	FILE *out2 = fopen(argv[4], "w");
 	int f1x[1000], f1y[1000];
 	int f2x[1000], f2y[1000];
+	unsigned char r, g, b;
 
 	char *img1_file = argv[1];
 	char *img2_file = argv[2];
+	char *imgchk_file = argv[4];
 
 	img1 = cvLoadImage( img1_file, 1 );
 	if( ! img1 )
@@ -53,6 +54,8 @@ int main( int argc, char** argv )
 	if( ! img2 )
 		fatal_error( "unable to load image from %s", img2_file );
 	stacked = stack_imgs( img1, img2 );
+
+	img_chk = cvLoadImage( imgchk_file, 1 );
 
 	fprintf( stderr, "Finding features in %s...\n", img1_file );
 	n1 = sift_features( img1, &feat1 );
@@ -79,6 +82,15 @@ int main( int argc, char** argv )
 				f2x[m] = pt2.x;
 				f2y[m] = pt2.y-img1->height;
 
+				r = img_chk->imageData[(pt1.y*(img_chk->width) + pt1.x)*3];
+				g = img_chk->imageData[(pt1.y*(img_chk->width) + pt1.x)*3+1];
+				b = img_chk->imageData[(pt1.y*(img_chk->width) + pt1.x)*3+2];
+				if((r == 0)&&
+				   (g == 255)&&
+				   (b == 0))
+				   continue;
+
+
 				cvLine( stacked, pt1, pt2, CV_RGB(255,0,255), 1, 8, 0 );
 				m++;
 				feat1[i].fwd_match = nbrs[0];
@@ -94,11 +106,7 @@ int main( int argc, char** argv )
 	//cvWaitKey( 0 );
 
 
-	fprintf(out2, "%d\n", m);
-	for(i = 0; i < m; ++i)
-		fprintf(out2, "%d\t%d\n%d\t%d\n", f1x[i], f1y[i], f2x[i], f2y[i]);
-
-	fprintf(out,  "%d\n", m);
+	fprintf(out, "%d\n", m);
 	for(i = 0; i < m; ++i)
 		fprintf(out, "%d\n", f1y[i]);
 	for(i = 0; i < m; ++i)

@@ -10,7 +10,7 @@ Last Modified:	06/03/2009
 #ifndef __MATHEMATICS_H
 #define __MATHEMATICS_H
 
-#include "definitions.h"
+#include "Definitions.h"
 #include <cmath>
 
 namespace RX

@@ -21,6 +21,7 @@ void Homography::load(std::string filename)
 	int n;
 	while(input >> n)
 	{
+		input >> n;
 		RX::mat3 m;
 		float a;
 		for(int i = 0; i < 3; ++i) {

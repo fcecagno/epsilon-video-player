@@ -13,3 +13,5 @@ sourceold/generatedfiles/
 *.sdf
 *.opensdf
 *.user
+*.o
+*~

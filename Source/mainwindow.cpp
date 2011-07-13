@@ -6,14 +6,15 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-: QMainWindow(parent), loader(NULL), homography(NULL)
-{
+: QMainWindow(parent), loader(NULL), homography(NULL), ui(new Ui::MainWindow){
+
     ui->setupUi(this);
 
 	// connect signals to slots
 	// menu
 	connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(load()));
 	connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(quit()));
+	//load();
 }
 
 MainWindow::~MainWindow()
@@ -32,6 +33,8 @@ void MainWindow::load()
 	QString path = dir.path();
 
 	QString filename = QFileDialog::getOpenFileName(this->parentWidget(), tr("Open File"), path+"/Data");
+	//QString filename = "../Data/Recitation13.wmv";
+
 	if(!filename.isEmpty()) {
 
 		loader = new MediaLoader(filename);

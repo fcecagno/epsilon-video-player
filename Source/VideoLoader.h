@@ -145,7 +145,7 @@ public:
             if (gotPicture) { // trata frame capturado
 //                qDebug() << "\\o\\";
 
-                PixelFormat dstFormat = PIX_FMT_RGB24;
+                PixelFormat dstFormat = PIX_FMT_RGB32;
                 AVFrame* deinterlacedFrame = avcodec_alloc_frame();
                 AVFrame* formattedFrame = avcodec_alloc_frame();
                 if (!deinterlacedFrame || !formattedFrame) {

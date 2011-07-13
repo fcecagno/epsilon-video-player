@@ -8,7 +8,7 @@ Last Modified:	23/03/2010
 */
 
 #include <fstream>
-#include "definitions.h"
+#include "Definitions.h"
 using namespace std;
 
 namespace RX

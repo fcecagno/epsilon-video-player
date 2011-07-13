@@ -15,7 +15,7 @@ Last Modified:	06/03/2009
 #include <cmath>
 
 // provisory
-#include <C3_Math.h>
+// #include <C3_Math.h>
 
 namespace RX
 {
@@ -40,16 +40,16 @@ public:
 	vec3d();
 
 	// provisory
-	C3::Math::vec3 toC3Math() 
-	{
-		return C3::Math::vec3(x, y, z);
-	}
-	void fromC3Math(C3::Math::vec3 v)
-	{
-		x = v.x;
-		y = v.y;
-		z = v.z;
-	}
+	// C3::Math::vec3 toC3Math() 
+	// {
+	// 	return C3::Math::vec3(x, y, z);
+	// }
+	// void fromC3Math(C3::Math::vec3 v)
+	// {
+	// 	x = v.x;
+	// 	y = v.y;
+	// 	z = v.z;
+	// }
 
 	double operator[](int id) const;
 
