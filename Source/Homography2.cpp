@@ -11,7 +11,7 @@ Homography2::~Homography2()
 
 void Homography2::load(std::string filename)
 {
-	ifstream input(filename);
+        ifstream input(filename.c_str());
 	int n;
 	while(input >> n)
 	{

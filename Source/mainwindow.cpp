@@ -6,8 +6,7 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-: QMainWindow(parent), loader(NULL)
-{
+: QMainWindow(parent), loader(NULL), ui(new Ui::MainWindow){
     ui->setupUi(this);
 
 	// connect signals to slots
