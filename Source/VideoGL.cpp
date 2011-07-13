@@ -8,13 +8,7 @@ void VideoGL::paintGL()
 		
 		int h = frame->getHeight();
 		int w = frame->getWidth();
-
 		/*
-		glBindTexture(GL_TEXTURE_2D, tex);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, frame->getData());
-
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0);
 		glVertex2f((_width - w)/2 + frame->getPosX(), (_height-h)/2 + frame->getPosY());
@@ -26,7 +20,6 @@ void VideoGL::paintGL()
 		glVertex2f((_width - w)/2 + frame->getPosX(), (_height-h)/2 + frame->getPosY()  + h);
 		glEnd();
 		*/
-
 		glRasterPos2i((_width - w)/2 + frame->getPosX(), (_height-h)/2 + frame->getPosY());
         glDrawPixels(w, h, GL_RGB, GL_UNSIGNED_BYTE, frame->getData()->data());
     }
@@ -59,6 +52,7 @@ void VideoGL::timerEvent(QTimerEvent *)
 				delete oldFrame;
 			oldFrame = frame;
 			frame = (VideoFrame*) loader->dequeueCond();
+
 			/*
 			QImage img2((uchar*)(frame->getData()->data()), frame->getWidth(), frame->getHeight(), QImage::Format_RGB888);
 			string str("corresp");
@@ -67,7 +61,8 @@ void VideoGL::timerEvent(QTimerEvent *)
 			str += buf;
 			str += ".png";
 			img2.save(str.c_str());
-			*/		
+			*/
+	
 			if(oldFrame != NULL) {
 
 				if(hitCount == 0) {
@@ -75,16 +70,21 @@ void VideoGL::timerEvent(QTimerEvent *)
 					frame->setPosY(0);
 				}
 				else {
-					RX::vec2 pos = _homography2.transform(hitCount-1, RX::vec2(oldFrame->getPosX(), oldFrame->getPosY()));
+					RX::vec2 pos = _homography->transform(hitCount-1, RX::vec2(oldFrame->getPosX(), oldFrame->getPosY()));
 					frame->setPosX(pos.x);
 					frame->setPosY(pos.y);
 				}
 
 				++hitCount;
+				/*
+				makeCurrent();
+				QPixmap pixmap;
+				QImage img((unsigned char *)(frame->getData()->data()), frame->getWidth(), frame->getHeight(), QImage::Format_RGB888);
+				pixmap.convertFromImage(img);
+				//tex = bindTexture((pixmap), GL_TEXTURE_2D);
+				*/
 			}
 		}
-		else
-			exit(0);
 
         update();
     }

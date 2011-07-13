@@ -38,12 +38,13 @@ int main( int argc, char** argv )
 	CvPoint pt1, pt2;
 	double d0, d1;
 	int n1, n2, k, i, m = 0;
-	//FILE *out = fopen(argv[3], "w");
+	FILE *out = fopen(argv[3], "w");
+	FILE *out2 = fopen(argv[4], "w");
 	int f1x[1000], f1y[1000];
 	int f2x[1000], f2y[1000];
 
-	char *img1_file = "corresp339.png";//argv[1];
-	char *img2_file = "corresp340.png";//argv[2];
+	char *img1_file = argv[1];
+	char *img2_file = argv[2];
 
 	img1 = cvLoadImage( img1_file, 1 );
 	if( ! img1 )
@@ -87,22 +88,25 @@ int main( int argc, char** argv )
 	}
 
 	fprintf( stderr, "Found %d total matches\n", m );
-	cvNamedWindow( "Matches", 1 );
-	cvShowImage( "Matches", stacked );
-	cvWaitKey( 0 );
+	cvSaveImage(argv[5], stacked, NULL);
+	//cvNamedWindow( "Matches", 1 );
+	//cvShowImage( "Matches", stacked );
+	//cvWaitKey( 0 );
 
-	/*
-	fprintf(out, "%d\n", m);
+
+	fprintf(out2, "%d\n", m);
+	for(i = 0; i < m; ++i)
+		fprintf(out2, "%d\t%d\n%d\t%d\n", f1x[i], f1y[i], f2x[i], f2y[i]);
+
+	fprintf(out,  "%d\n", m);
 	for(i = 0; i < m; ++i)
 		fprintf(out, "%d\n", f1y[i]);
-	for(i = 0; i < m; ++i)	  
+	for(i = 0; i < m; ++i)
 		fprintf(out, "%d\n", f1x[i]);
-	for(i = 0; i < m; ++i)	  
+	for(i = 0; i < m; ++i)
 		fprintf(out, "%d\n", f2y[i]);
-	for(i = 0; i < m; ++i)	  
+	for(i = 0; i < m; ++i)
 		fprintf(out, "%d\n", f2x[i]);
-	*/
-
 
 	/* 
 	UNCOMMENT BELOW TO SEE HOW RANSAC FUNCTION WORKS

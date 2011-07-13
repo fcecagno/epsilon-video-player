@@ -1,6 +1,9 @@
 bin/
 obj/
 third/sift/match/debug
+third/ransac/source/SVD/Release
+third/matrix/debug
+third/homography/debug
 source/generatedfiles/
 sourceold/generatedfiles/
 *.vcxproj*

@@ -6,7 +6,7 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-: QMainWindow(parent), loader(NULL)
+: QMainWindow(parent), loader(NULL), homography(NULL)
 {
     ui->setupUi(this);
 
@@ -20,16 +20,29 @@ MainWindow::~MainWindow()
 {
 	if(loader != NULL)
 		delete loader;
+	if(homography != NULL)
+		delete homography;
     delete ui;
 }
 
 void MainWindow::load()
 {
-	QString filename = QFileDialog::getOpenFileName(this->parentWidget(), tr("Open File"), QDir::currentPath());
-	if(!filename.isEmpty()) {
-		loader = new MediaLoader(filename);
-		loader->start();
+	QDir dir = QDir::current();
+	dir.cdUp();
+	QString path = dir.path();
 
-		ui->videoWidget->setVideoLoader(loader->getVideoHandler());
+	QString filename = QFileDialog::getOpenFileName(this->parentWidget(), tr("Open File"), path+"/Data");
+	if(!filename.isEmpty()) {
+
+		loader = new MediaLoader(filename);
+
+		filename = filename.left(filename.size()-4)+".txt";
+		homography = new Homography();
+		homography->clear();
+		homography->load(filename.toStdString());
+
+		loader->start();
+		ui->videoWidget->setHomography(homography);
+		ui->videoWidget->setVideoLoader(loader->getVideoHandler());		
 	}
 }

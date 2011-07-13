@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "VideoGL.h"
+#include "Homography.h"
 
 namespace Ui {
     class MainWindow;
@@ -21,7 +22,9 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
+	Homography *homography;
     MediaLoader *loader;
+	
 };
 
 #endif // MAINWINDOW_H

@@ -8,7 +8,7 @@
 #include <iostream>
 #include <RX/mat4.h>
 #include <QtOpenGL/QGLWidget>
-#include "Homography2.h"
+#include "Homography.h"
 #include "VideoLoader.h"
 
 class VideoGL : public QGLWidget 
@@ -16,14 +16,12 @@ class VideoGL : public QGLWidget
     Q_OBJECT
 
 private:
-    MediaHandler* loader;
-    VideoFrame* frame, *oldFrame;
+    MediaHandler *loader;
+    VideoFrame *frame, *oldFrame;
     QMutex mFrame;
     int _width, _height;
 
-	//KLTCorresp _klt;
-	//Homography _homography;
-	Homography2 _homography2;
+	Homography *_homography;
 	GLuint tex;
 
 public:
@@ -33,8 +31,8 @@ public:
         , frame(NULL)
 		, oldFrame(NULL)
         , loader(NULL)
+		, _homography(NULL)
     {
-		_homography2.load("results.txt");
         startTimer(50);
     }
 
@@ -42,6 +40,10 @@ public:
 
     void setVideoLoader(MediaHandler* loader) {
         this->loader = loader;
+    }
+
+	void setHomography(Homography* homography) {
+        _homography = homography;
     }
 
     void initializeGL() 
