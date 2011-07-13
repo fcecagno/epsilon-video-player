@@ -9,5 +9,4 @@ typedef unsigned char uchar;
 
 void createMatrix(matd &m, int rows, int cols);
 
-
 #endif // __DEFINES_H

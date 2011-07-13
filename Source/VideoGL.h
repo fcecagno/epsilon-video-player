@@ -8,9 +8,7 @@
 #include <iostream>
 #include <RX/mat4.h>
 #include <QtOpenGL/QGLWidget>
-#include "Homography.h"
 #include "Homography2.h"
-#include "KLTCorresp.h"
 #include "VideoLoader.h"
 
 class VideoGL : public QGLWidget 
@@ -23,8 +21,8 @@ private:
     QMutex mFrame;
     int _width, _height;
 
-	KLTCorresp _klt;
-	Homography _homography;
+	//KLTCorresp _klt;
+	//Homography _homography;
 	Homography2 _homography2;
 	GLuint tex;
 
