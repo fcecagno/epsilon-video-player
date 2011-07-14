@@ -22,7 +22,7 @@ void Homography::load(std::string filename)
 	while(input >> n)
 	{
 		input >> n;
-		RX::mat3 m;
+		RX::mat3d m;
 		float a;
 		for(int i = 0; i < 3; ++i) {
 			for(int j = 0; j < 3; ++j) {
@@ -30,16 +30,19 @@ void Homography::load(std::string filename)
 				m.set(i, j, a);
 			}
 		}
-		_hom.push_back(m);
+		_hom.push_back(!m);
 	}
 
 }
 
-RX::vec2 Homography::transform(int frame, RX::vec2 vec)
+RX::vec2d Homography::transform(int frame, RX::vec2d vec)
 {
 	if(frame > _hom.size()-1)
 		return vec;
+	
+	double x = vec.x*_hom[frame].at(0, 0) + vec.y*_hom[frame].at(0, 1) + _hom[frame].at(0, 2);
+	double y = vec.x*_hom[frame].at(1, 0) + vec.y*_hom[frame].at(1, 1) + _hom[frame].at(1, 2);
+	double z = vec.x*_hom[frame].at(2, 0) + vec.y*_hom[frame].at(2, 1) + _hom[frame].at(2, 2);
 
-	RX::vec2 res = RX::vec2(vec.x-_hom[frame].at(2, 0), vec.y-_hom[frame].at(2, 1));
-	return res;
+	return RX::vec2d(x/z, y/z);
 }

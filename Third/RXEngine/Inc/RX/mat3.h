@@ -13,7 +13,7 @@ Last Modified:	30/04/2009
 #include <sstream>
 #include "vec3.h"
 #include "vec4.h"
-//#include "../Third/Inc/C3/C3_Math.h"
+#include "../Third/Inc/C3/C3_Math.h"
 
 namespace RX
 {
@@ -54,11 +54,12 @@ public:
 
 	const float *floats() const { return &_m[0][0]; }
 	const float at(int i, int j) { return _m[i][j]; }
-	const void set(int i, int j, float value) { _m[i][j] = value; }
+	void set(int i, int j, float value) { _m[i][j] = value; }
+
+public:
+	float _m[3][3];
 
 private:
-	float _m[3][3];
-	/*
 	void fromC3Math(C3::Math::mat3 matrix)
 	{
 		for(int i = 0; i < 3; ++i)
@@ -74,7 +75,6 @@ private:
 				matrix[i][j] = _m[i][j];
 		return matrix;
 	}
-	*/
 };
 
 std::ostream &operator<<(std::ostream &out, mat3 m);
@@ -82,4 +82,4 @@ std::istream &operator>>(std::istream &in, mat3 &m);
 
 };
 
-#endif // __mat3_H
+#endif // __MAT3_H

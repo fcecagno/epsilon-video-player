@@ -82,6 +82,7 @@ int main( int argc, char** argv )
 				f2x[m] = pt2.x;
 				f2y[m] = pt2.y-img1->height;
 
+				/*
 				r = img_chk->imageData[(pt1.y*(img_chk->width) + pt1.x)*3];
 				g = img_chk->imageData[(pt1.y*(img_chk->width) + pt1.x)*3+1];
 				b = img_chk->imageData[(pt1.y*(img_chk->width) + pt1.x)*3+2];
@@ -89,9 +90,9 @@ int main( int argc, char** argv )
 				   (g == 255)&&
 				   (b == 0))
 				   continue;
-
-
 				cvLine( stacked, pt1, pt2, CV_RGB(255,0,255), 1, 8, 0 );
+				*/
+				
 				m++;
 				feat1[i].fwd_match = nbrs[0];
 			}
@@ -100,7 +101,7 @@ int main( int argc, char** argv )
 	}
 
 	fprintf( stderr, "Found %d total matches\n", m );
-	cvSaveImage(argv[5], stacked, NULL);
+	//cvSaveImage(argv[5], stacked, NULL);
 	//cvNamedWindow( "Matches", 1 );
 	//cvShowImage( "Matches", stacked );
 	//cvWaitKey( 0 );

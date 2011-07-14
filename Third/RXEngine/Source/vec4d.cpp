@@ -21,12 +21,12 @@ vec4d::vec4d(double x1, double y1, double z1, double w1)
 {
 }
 
-vec4d::vec4d(const vec3 &v) 
+vec4d::vec4d(const vec3d &v) 
 :x(v.x), y(v.y), z(v.z), w(1.0f) 
 {
 }
 
-vec4d::vec4d(const vec3 &v, double w) 
+vec4d::vec4d(const vec3d &v, double w) 
 :x(v.x), y(v.y), z(v.z), w(w) 
 {
 }

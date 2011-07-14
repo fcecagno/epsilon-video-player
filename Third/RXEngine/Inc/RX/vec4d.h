@@ -17,7 +17,7 @@ Last Modified:	13/05/2009
 namespace RX
 {
 
-class vec4
+class vec4d
 {
 public:
 	// Create/destroy
@@ -62,7 +62,7 @@ public:
 	vec4d operator*(const double &f);
 	vec4d operator/(const double &f);
 
-	bool operator==(const vec4 &v);
+	bool operator==(const vec4d &v);
 
 	// Get doubles
 	double const *doubles() const { return &x; }

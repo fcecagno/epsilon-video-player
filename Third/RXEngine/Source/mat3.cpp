@@ -82,10 +82,11 @@ mat3 mat3::operator/=(const float f)
 
 mat3 mat3::operator!() const
 {
-	// NOT IMPLEMENTED
-	mat3 m;
-	m.setIdentity();
-	return m;
+	C3::Math::mat3 m = this->toC3Math();
+	m = !m;
+	mat3 answer;
+	answer.fromC3Math(m);
+	return answer;
 }
 
 // Transform a vec4

@@ -41,7 +41,7 @@ int main()
 	
 	mat3 T1, T2, H, H_temp;
 
-	string folder = "correspSIFTb";
+	string folder = "correspSIFTc";
 	ofstream results;
 	results.open(folder+"/results.txt");
 	for(int frame = 1; frame <= 1036; ++frame)
@@ -152,8 +152,8 @@ int main()
 
 			for(int i=0; i<3; i++) {
 				for(int j=0; j<3; j++) {
-					double a = H.at(j, i);
-					double b = H.at(0, 0);
+					double a = H.at(i, j);
+					double b = H.at(2, 2);
 					double ab = a/b;
 					results<< ab << "\t";
 				}
