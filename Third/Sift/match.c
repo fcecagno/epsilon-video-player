@@ -31,7 +31,7 @@ Copyright (C) 2006-2010  Rob Hess <hess@eecs.oregonstate.edu>
 
 int main( int argc, char** argv )
 {
-	IplImage *img1, * img2, *img_chk, * stacked;
+	IplImage *img1, * img2, *img_chk, * stacked, * aligned, *aligned2;
 	struct feature* feat1, * feat2, * feat;
 	struct feature** nbrs;
 	struct kd_node* kd_root;
@@ -54,6 +54,8 @@ int main( int argc, char** argv )
 	if( ! img2 )
 		fatal_error( "unable to load image from %s", img2_file );
 	stacked = stack_imgs( img1, img2 );
+	aligned = align_imgs( img1, img2 );
+	aligned2 = align_imgs( img1, img2 );
 
 	img_chk = cvLoadImage( imgchk_file, 1 );
 
@@ -75,24 +77,30 @@ int main( int argc, char** argv )
 			{
 				pt1 = cvPoint( cvRound( feat->x ), cvRound( feat->y ) );
 				pt2 = cvPoint( cvRound( nbrs[0]->x ), cvRound( nbrs[0]->y ) );
-				pt2.y += img1->height;
 
 				f1x[m] = pt1.x;
 				f1y[m] = pt1.y;
 				f2x[m] = pt2.x;
-				f2y[m] = pt2.y-img1->height;
+				f2y[m] = pt2.y;
 
-				/*
-				r = img_chk->imageData[(pt1.y*(img_chk->width) + pt1.x)*3];
-				g = img_chk->imageData[(pt1.y*(img_chk->width) + pt1.x)*3+1];
-				b = img_chk->imageData[(pt1.y*(img_chk->width) + pt1.x)*3+2];
-				if((r == 0)&&
-				   (g == 255)&&
-				   (b == 0))
-				   continue;
-				cvLine( stacked, pt1, pt2, CV_RGB(255,0,255), 1, 8, 0 );
-				*/
-				
+				//if(i < 100) {
+				//pt1.x = i;
+				//pt1.y = i;
+
+				//r = img_chk->imageData[(pt1.y*(img_chk->width) + pt1.x)*3];
+				//g = img_chk->imageData[(pt1.y*(img_chk->width) + pt1.x)*3+1];
+				//b = img_chk->imageData[(pt1.y*(img_chk->width) + pt1.x)*3+2];
+				//if((r == 0)&&
+				//   (g == 255)&&
+				//   (b == 0))
+				//   continue;
+
+				cvLine(stacked, pt1, cvPoint(pt2.x, pt2.y+img1->height), CV_RGB(255,0,255), 1, 8, 0);
+				cvLine(aligned, pt1, cvPoint(pt2.x+img1->width, pt2.y), CV_RGB(255,0,255), 1, 8, 0);
+				cvCircle(aligned2, pt1, 2, CV_RGB(255,0,255), 1, 8, 0);
+				cvCircle(aligned2, cvPoint(pt2.x+img1->width, pt2.y), 2, CV_RGB(255,0,255), 1, 8, 0);
+				//}
+
 				m++;
 				feat1[i].fwd_match = nbrs[0];
 			}
@@ -101,7 +109,9 @@ int main( int argc, char** argv )
 	}
 
 	fprintf( stderr, "Found %d total matches\n", m );
-	//cvSaveImage(argv[5], stacked, NULL);
+	cvSaveImage(argv[4], stacked, NULL);
+	cvSaveImage(argv[5], aligned, NULL);
+	cvSaveImage(argv[6], aligned2, NULL);
 	//cvNamedWindow( "Matches", 1 );
 	//cvShowImage( "Matches", stacked );
 	//cvWaitKey( 0 );
@@ -109,11 +119,11 @@ int main( int argc, char** argv )
 
 	fprintf(out, "%d\n", m);
 	for(i = 0; i < m; ++i)
-		fprintf(out, "%d\n", f1y[i]);
+		fprintf(out, "%d\n", img1->height-f1y[i]);
 	for(i = 0; i < m; ++i)
 		fprintf(out, "%d\n", f1x[i]);
 	for(i = 0; i < m; ++i)
-		fprintf(out, "%d\n", f2y[i]);
+		fprintf(out, "%d\n", img1->height-f2y[i]);
 	for(i = 0; i < m; ++i)
 		fprintf(out, "%d\n", f2x[i]);
 

@@ -241,6 +241,21 @@ extern IplImage* stack_imgs( IplImage* img1, IplImage* img2 )
 	return stacked;
 }
 
+extern IplImage* align_imgs( IplImage* img1, IplImage* img2 )
+{
+	IplImage* stacked = cvCreateImage( cvSize( img1->width + img2->width,
+										MAX(img1->height, img2->height) ),
+										IPL_DEPTH_8U, 3 );
+
+	cvZero( stacked );
+	cvSetImageROI( stacked, cvRect( 0, 0, img1->width, img1->height ) );
+	cvAdd( img1, stacked, stacked, NULL );
+	cvSetImageROI( stacked, cvRect(img1->width, 0, img2->width, img2->height) );
+	cvAdd( img2, stacked, stacked, NULL );
+	cvResetImageROI( stacked );
+
+	return stacked;
+}
 
 
 /*

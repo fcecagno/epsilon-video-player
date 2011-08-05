@@ -2,19 +2,23 @@
 #include <QDir>
 #include <QString>
 #include <QtGui>
-#include "mainwindow.h"
+#include "MainWindow.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-: QMainWindow(parent), loader(NULL), homography(NULL), ui(new Ui::MainWindow){
-
+: QMainWindow(parent), loader(NULL), homography(NULL), ui(new Ui::MainWindow)
+{
     ui->setupUi(this);
+	ui->btStop->setVisible(false);
 
 	// connect signals to slots
 	// menu
 	connect(ui->actionLoad, SIGNAL(triggered()), this, SLOT(load()));
 	connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(quit()));
-	//load();
+	connect(ui->btPlay, SIGNAL(clicked()), this, SLOT(play()));
+	connect(ui->btStop, SIGNAL(clicked()), this, SLOT(stop()));
+	connect(ui->btForwardOne, SIGNAL(clicked()), this, SLOT(forwardOne()));
+	
 }
 
 MainWindow::~MainWindow()
@@ -33,7 +37,6 @@ void MainWindow::load()
 	QString path = dir.path();
 
 	QString filename = QFileDialog::getOpenFileName(this->parentWidget(), tr("Open File"), path+"/Data");
-	//QString filename = "../Data/Recitation13.wmv";
 
 	if(!filename.isEmpty()) {
 
@@ -48,4 +51,35 @@ void MainWindow::load()
 		ui->videoWidget->setHomography(homography);
 		ui->videoWidget->setVideoLoader(loader->getVideoHandler());		
 	}
+}
+
+void MainWindow::play()
+{
+	ui->videoWidget->start();
+	ui->btPlay->setVisible(false);
+	ui->btStop->setVisible(true);
+}
+
+void MainWindow::stop()
+{
+	ui->videoWidget->stop();
+	ui->btPlay->setVisible(true);
+	ui->btStop->setVisible(false);
+}
+
+void MainWindow::backward()
+{
+}
+
+void MainWindow::backwardOne()
+{
+}
+
+void MainWindow::forwardOne()
+{
+	ui->videoWidget->forwardOne();
+}
+
+void MainWindow::forward()
+{
 }

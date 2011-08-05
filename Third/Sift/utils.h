@@ -210,6 +210,7 @@ Combines two images by scacking one on top of the other
 */
 extern IplImage* stack_imgs( IplImage* img1, IplImage* img2 );
 
+extern IplImage* align_imgs( IplImage* img1, IplImage* img2 );
 
 /**
 Allows user to view an array of images as a video.  Keyboard controls

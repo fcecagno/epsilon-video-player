@@ -18,7 +18,7 @@ void Homography::load(std::string filename)
 {
 	ifstream input(filename);
 
-	int n;
+	float n;
 	while(input >> n)
 	{
 		input >> n;
@@ -29,8 +29,8 @@ void Homography::load(std::string filename)
 				input >> a;
 				m.set(i, j, a);
 			}
-		}
-		_hom.push_back(!m);
+		}		
+		_hom.push_back(m);
 	}
 
 }

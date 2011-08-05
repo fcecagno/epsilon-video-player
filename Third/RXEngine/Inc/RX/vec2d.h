@@ -42,6 +42,11 @@ public:
 	vec2d operator-(const vec2d &v) const;
 	vec2d operator-=(const vec2d &v);
 
+	// Multiplication/Division by scalar
+	vec2d operator*=(const double &f);
+	vec2d operator/=(const double &f);
+	vec2d operator/(const double &f);
+
 
 	double *doubles() {
 		f[0] = x; f[1] = y;
@@ -54,6 +59,12 @@ private:
 	double f[2];
 
 };
+
+vec2d operator*(const double &f, const vec2d &v);
+vec2d operator*(const vec2d &v, const double &f);
+
+std::ostream &operator<<(std::ostream &out, vec2d v);
+std::istream &operator>>(std::istream &in, vec2d &v);
 
 };
 

@@ -1,5 +1,44 @@
 #include "VideoGL.h"
 
+VideoGL::VideoGL(QWidget* parent)
+: QGLWidget(QGLFormat(QGL::SampleBuffers), parent)
+, frame(NULL)
+, oldFrame(NULL)
+, loader(NULL)
+, _homography(NULL)
+{
+	connect(&_timer, SIGNAL(timeout()), this, SLOT(onTimer()));
+	_timer.setInterval(50);
+}
+
+void VideoGL::start()
+{
+	_timer.start();
+}
+
+void VideoGL::forwardOne()
+{
+	onTimer();
+}
+
+void VideoGL::stop()
+{
+	_timer.stop();
+}
+
+
+void VideoGL::initializeGL() 
+{
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glShadeModel(GL_FLAT);
+    glEnable(GL_DEPTH_TEST);
+
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
+    glGenTextures(1, &tex);
+    glBindTexture(GL_TEXTURE_2D, tex);
+} 
+
 void VideoGL::paintGL() 
 {
     if (frame) 
@@ -25,10 +64,10 @@ void VideoGL::paintGL()
         glTexCoord2f(0.0, 1.0); glVertex2f((_width - w)/2 + frame->getPosX(), (_height-h)/2 + frame->getPosY());
         glEnd();
 
-        glEnd();
-        glFlush();
+		glFlush();
         glDisable(GL_TEXTURE_2D);
     }
+
 }
 
 void VideoGL::resizeGL(int w, int h) 
@@ -46,19 +85,19 @@ void VideoGL::resizeGL(int w, int h)
     glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void VideoGL::timerEvent(QTimerEvent *)
+void VideoGL::onTimer()
 {
 	// hack
 	static int hitCount = 0;
     if (loader) {
-
 		// hack
-		if(hitCount < 1038) {
+		if(hitCount < 1034) {
 			if(oldFrame != NULL)
 				delete oldFrame;
 			oldFrame = frame;
 			frame = (VideoFrame*) loader->dequeueCond();
 
+			/*
 			QImage img2((uchar*)(frame->getData()->data()), frame->getWidth(), frame->getHeight(), QImage::Format_ARGB32);
 			string str("corresp");
 			char buf[10];
@@ -66,8 +105,8 @@ void VideoGL::timerEvent(QTimerEvent *)
 			str += buf;
 			str += ".png";
 			img2.save(str.c_str());
+			*/
 
-	
 			if(oldFrame != NULL) {
 
 				if(hitCount == 0) {
@@ -77,22 +116,20 @@ void VideoGL::timerEvent(QTimerEvent *)
 					frame->setPosY2(frame->getHeight());
 				}
 				else {
-					RX::vec2d pos = _homography->transform(hitCount-1, RX::vec2d(oldFrame->getPosX(), oldFrame->getPosY()));
-					RX::vec2d pos2 = _homography->transform(hitCount-1, RX::vec2d(oldFrame->getPosX2(), oldFrame->getPosY2()));
+					RX::vec2d oldpos = RX::vec2d(0, 0);
+					RX::vec2d oldpos2 = RX::vec2d(frame->getWidth(), frame->getHeight());
+
+					RX::vec2d pos = _homography->transform(hitCount-1, oldpos);
+					RX::vec2d pos2 = _homography->transform(hitCount-1, oldpos2);
+
 					frame->setPosX(pos.x);
 					frame->setPosY(pos.y);
 					frame->setPosX2(pos2.x);
 					frame->setPosY2(pos2.y);
+
 				}
 
 				++hitCount;
-				/*
-				makeCurrent();
-				QPixmap pixmap;
-				QImage img((unsigned char *)(frame->getData()->data()), frame->getWidth(), frame->getHeight(), QImage::Format_RGB888);
-				pixmap.convertFromImage(img);
-				//tex = bindTexture((pixmap), GL_TEXTURE_2D);
-				*/
 			}
 		}
 

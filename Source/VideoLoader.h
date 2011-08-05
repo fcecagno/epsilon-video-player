@@ -295,7 +295,8 @@ public:
     ~MediaLoader() {
         for (QVector<MediaHandler*>::iterator it = mediaHandler.begin(); it != mediaHandler.end(); ++it)
             delete (*it);
-        av_close_input_file(formatContext);
+
+		av_close_input_file(formatContext);
     }
 
     MediaHandler* getVideoHandler() {

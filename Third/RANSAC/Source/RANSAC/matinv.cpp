@@ -2,14 +2,15 @@
  * (C) 2001, C. Bond. All rights reserved.
  */
 #include <math.h>
-#include <RX/mat3.h>
+#include <RX/mat3d.h>
 using namespace RX;
 /* Bare-bones Gauss-Jordan algorithm. Returns '0' on success, '1' if
  * matrix is singular (zero diagonal). No pivoting used.
  *
  * Replaces input matrix with its inverse.
  */
-int matinv(mat3 a, mat3 &inv)
+
+int matinv(mat3d a, mat3d &inv)
 {
 	inv.setIdentity();
     for (int k=0;k<3;k++) {

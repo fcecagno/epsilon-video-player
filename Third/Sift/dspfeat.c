@@ -6,6 +6,7 @@ Copyright (C) 2006-2010  Rob Hess <hess@eecs.oregonstate.edu>
 @version 1.1.2-20100521
 */
 
+/*
 #include "imgfeatures.h"
 #include "utils.h"
 
@@ -14,13 +15,13 @@ Copyright (C) 2006-2010  Rob Hess <hess@eecs.oregonstate.edu>
 
 #include <stdio.h>
 
-/******************************** Globals ************************************/
+// Globals
 
 char* feat_file = "..\\beaver.sift";
 char* img_file = "..\\beaver.png";
 int feat_type = FEATURE_LOWE;
 
-/********************************** Main *************************************/
+// Main
 
 
 int main( int argc, char** argv )
@@ -44,3 +45,4 @@ int main( int argc, char** argv )
 	cvWaitKey( 0 );
 	return 0;
 }
+*/

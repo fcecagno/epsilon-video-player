@@ -24,37 +24,47 @@ met:
 #pragma once
 #define eps 2.220446049250313e-16
 
-#include <RX/mat3.h>
+#include <RX/mat3d.h>
 using namespace RX;
 
-int matinv(mat3 a, mat3 &inv);
+int matinv(mat3d a, mat3d &inv);
 
 class Ransac
 {
 public:
-	Ransac(void);
+	Ransac();
+	~Ransac();
+
 	Ransac(matd&, matd&, int, double);
-	void Normalize(matd&, mat3&, matd&, mat3&);
-	void MainLoop(matd&, matd&, int, int, double, mat3&, vector<int>&, int&, int&);
-	void MatrixMul(mat3&, int, int, matd&, int, int, matd&) const;
-	void fitHomography(matd&, matd&, int, mat3&);
-	void getInliers(matd&, matd&, int, mat3&, double, vector<int>&, int&, int&);
-public:
-	~Ransac(void);
+	void normalize();
+	void fitHomography(mat3d &H);
+	void mainLoop(int mnop, double t, mat3d &H);
+	void denormalize(mat3d &H);
+
+	void MatrixMul(mat3d&, int, int, matd&, int, int, matd&) const;
+	void getInliers(matd&, matd&, int, mat3d&, double, vector<int>&, int&, int&);
+
+	// Gets
+	int noi() { return _noi; }
 
 private:
 	double mean(vector<double>, int) const;
-	void Normalize(matd&, int, matd&, mat3&) const;
+	void Normalize(matd&, int, matd&, mat3d&) const;
 	void randgen(int, int, vector<int>&);
-	bool isdegenerate(matd&, int);
-	bool iscolinear(double*, double*, double*);
+	bool isDegenerate(matd&, int);
+	bool isCollinear(double*, double*, double*);
 	void cross(double*, double*, double[]);
-	double magnitude(double[], int);
+	double length(double[], int);
+
+	void fitHomography(matd&, matd&, int, mat3d&);
 
 private:
-	matd m_X1;	//3xNOE
-	matd m_X2;	//3xNOE
-	int m_NOF;
-	double m_Threshold;
-	matd m_H;
+	mat3d _T1, _T2;
+	matd _x1, _x2, _normx1, _normx2;
+	matd _x1In, _x2In;
+	int _nof, _noi;
+
+	double _threshold;
+	matd _H;
+	vector<bool> _inliers;
 };

@@ -1,0 +1,54 @@
+NAME
+	mhomoest - computes a homography from image point 
+                   correspondences.
+
+SYNOPSIS
+	mhomoest < in-file > out-file
+
+DESCRIPTION
+        A homography is computed from two sets of corresponding points.
+        "mhomoest" reads input data from the standard input. The
+        format of the input data (in-file) is as follows:
+
+	-----------------------------------------------------------
+	sz
+	x[1]    y[1]
+        x[1]'   y[1]'
+        ...
+        x[sz]   y[sz]
+        x[sz]'  y[sz]'
+        -----------------------------------------------------------
+
+	sz          : number of corresponding point pairs
+	x[i]  y[i]  : image coordinates of the i-th point in the
+                      first frame.
+	x[i]' y[i]' : image coordinates of the i-th point in the
+                      second frame.
+
+        The output of "mhomoest" appears in the standard output. The 
+        titles in the output (out-file) indicate:
+
+	H      : computed homography.
+	H+, H- : standard deviation pair.
+
+        These are 3 by 3 matrices normalized to norm 1.  The homography
+        H is a matrix such that
+  
+         /    \                  /    \
+        | x[i]'|                | x[i] |
+        | y[i]'| = constant× H | y[i] |,    i = 1, ..., sz.
+        |  1   |                |  1   |
+         \    /                  \    /
+
+        The standard deviation pair {H+, H-} describes the reliability
+        of the estimate.  For example, if H+ and H- coincide up to,
+        say, three significant digits, the estimate H is guaranteed to
+        have accuracy up to approximately three significant digits.
+        This is a theoretical accuracy bound, and it is impossible to
+        improve the accuracy any further for the given data.
+
+REFERENCE
+        K. Kanatani, Optimal homography computation with a reliability
+        measure, Proceedings of the IAPR Workshop on Machine Vision
+        Applications (MVA'98),  pp. 17-19, November 1998, Makuhari,
+        Chiba, Japan.

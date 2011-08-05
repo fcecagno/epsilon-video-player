@@ -1,0 +1,6 @@
+Hi,
+
+I am reading your paper "Augmented Panoramic Video". Could you please ellaborate a little bit more on Section 4.2.1. Homography Computation? More specifically, I didn't understand the last sentence. Do you repeat the RANSAC estimation? If not, how does it change the amount of inliers? What do you mean by a stable amount of inliers?
+
+Thank you very much,
+Rosália

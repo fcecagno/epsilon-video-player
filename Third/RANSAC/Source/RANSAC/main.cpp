@@ -20,10 +20,13 @@ met:
   contributors may be used to endorse or promote products derived from
   this software without specific prior written permission.
 *************************************************************************/
+
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <vector>
-#include <RX/mat3.h>
+#include <RX/mat3d.h>
+#include <RX/vec3d.h>
 #include "define.h"
 #include "Ransac.h"
 
@@ -39,20 +42,41 @@ int main()
 	matd x1_outliers, x2_outliers;
 	matd new_x1, new_x2;
 	
-	mat3 T1, T2, H, H_temp;
+	mat3d T1, T2, H_temp;
+	vector<mat3d> H;
+	vector<vec3d> centroid;
+	mat3d Hlast;
+	Hlast.setIdentity();
 
-	string folder = "correspSIFTc";
+	string folder = "correspSIFTb";
 	ofstream results;
 	results.open(folder+"/results.txt");
-	for(int frame = 1; frame <= 1036; ++frame)
+	for(int frame = 0; frame <= 1036; ++frame)
 	{
+		while(H.size() <= frame) {
+			H.push_back(mat3d());
+			centroid.push_back(vec3d());
+		}
+
 		string str(folder+"/corresp");
 		char buf[10];
 		sprintf(buf, "%d", frame);
 		str += buf;
 		str += ".txt";
 
+		/*
+		string str2(folder+"/feat");
+		str2 += buf;
+		str2 += ".txt";
+
+		string str3(folder+"/inliers");
+		str3 += buf;
+		str3 += ".txt";
+		*/
+
 		ifstream in(str);
+		//ofstream feat(str2);
+		//ofstream inliersf(str3);
 
 		if(in.is_open())
 		{
@@ -62,8 +86,7 @@ int main()
 
 			 createMatrix(x1, 3, nof);
 			 createMatrix(x2, 3, nof);
-			 createMatrix(x1_inliers, 3, nof);
-			 createMatrix(x2_inliers, 3, nof);
+			 
 			 createMatrix(x1_outliers, 3, nof);
 			 createMatrix(x2_outliers, 3, nof);
 			 createMatrix(new_x1, 3, nof);
@@ -83,83 +106,35 @@ int main()
 			for(int i=0; i<nof; i++)
 				x2[2][i] = 1;
 
-			double t = 0.0001;	//Define your RANSAC threshold
+			double t = 0.00001;	//Define your RANSAC threshold
 
 			Ransac R1(x1,x2,nof,t);
+			R1.normalize();
+			R1.mainLoop(4, t, H[frame]);
+			R1.fitHomography(H[frame]);
+			R1.denormalize(H[frame]);
+			
 
-			//Normalize the Data Sets
-			R1.Normalize(new_x1, T1, new_x2, T2);
+			// get centroid
+			//centroid[frame] = !(H[frame]) * vec3d(256, 144, 1);
+			// find closest to origin with distance to centroid still small
 
-			vector<int> inliers;
-			for(int i = 0; i < nof; ++i)
-				inliers.push_back(0);
 
-			int noi;	// TO return number of inliers
-			int noo;	// TO return number of outliers
-		
-			//The Main Loop of the RANSAC
-			R1.MainLoop(new_x1, new_x2, nof, 4, t, H, inliers, noi, noo);
+			H[frame] =  H[frame] * Hlast;
+			Hlast = H[frame];
+			H[frame] = !(H[frame]);
 
-			//Separate the inliers and outliers
-			int j=0;
-			int k=0;
-			for(int i=0; i<nof; i++)
-			{
-				if(inliers[i] == 1)
-				{
-					x1_inliers[0][j] = new_x1[0][i];
-					x1_inliers[1][j] = new_x1[1][i];
-					x1_inliers[2][j] = new_x1[2][i];
-
-					x2_inliers[0][j] = new_x2[0][i];
-					x2_inliers[1][j] = new_x2[1][i];
-					x2_inliers[2][j] = new_x2[2][i];
-					j++;
-				}
-				else
-				{
-					x1_outliers[0][k] = x1[0][i];
-					x1_outliers[1][k] = x1[1][i];
-					x1_outliers[2][k] = x1[2][i];
-
-					x2_outliers[0][k] = x2[0][i];
-					x2_outliers[1][k] = x2[1][i];
-					x2_outliers[2][k] = x2[2][i];
-					k++;
-				}
-			}
-
-			// Update your homography by fitting a homography to the whole Number of Inliers
-			R1.fitHomography(x1_inliers, x2_inliers, noi, H);
-
-			//Denormalize H
-			mat3 T2i;
-			if(matinv(T2, T2i) == 0)
-			{
-				//H = inv(T2)*H*T1
-				H_temp = H * T1;
-				H = T2i * H_temp;
-			}
-			else
-			{
-				cout << "fail" << endl;
-			}
-
-			results.setf(ios::fixed, ios::floatfield);
-			results.setf(ios::showpoint);
-
-			results << noi << " " << frame << endl;
-
+			results << R1.noi() << " " << frame << std::endl;
 			for(int i=0; i<3; i++) {
 				for(int j=0; j<3; j++) {
-					double a = H.at(i, j);
-					double b = H.at(2, 2);
-					double ab = a/b;
-					results<< ab << "\t";
+					double r = H[frame].at(i,j);
+					results << r << "\t";
 				}
-				results << endl;
+				results << std::endl;
 			}
+
 		}
+		
 		in.close();
 		cout << frame << endl;
 	}

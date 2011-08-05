@@ -19,12 +19,17 @@ public:
 
 public slots:
 	void load();
+	void play();
+	void stop();
+	void backward();
+	void backwardOne();
+	void forwardOne();
+	void forward();
 
 private:
     Ui::MainWindow *ui;
 	Homography *homography;
     MediaLoader *loader;
-	
 };
 
-#endif // MAINWINDOW_H
+#endif // __MAINWINDOW_H

@@ -32,11 +32,16 @@ public:
 	mat3(vec3 row1, vec3 row2, vec3 row3);
 	~mat3();
 
-	// Multiply matrices
+	// Matrices
 	mat3 operator!() const;
 	mat3 operator*(const mat3 &other) const;
+	mat3 operator+(const mat3 &other) const;
+	mat3 operator-(const mat3 &other) const;
 	
+	mat3 operator/(const float f) const;
+	mat3 operator*(const float f) const;
 	mat3 operator/=(const float f);
+	mat3 operator*=(const float f);
 
 	// Transform a vec3
 	vec3 operator*(const vec3 &v) const;

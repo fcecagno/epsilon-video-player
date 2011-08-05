@@ -15,6 +15,7 @@ that accompanied this distribution.
 Version: 1.1.2-20100521
 */
 
+/*
 #include "sift.h"
 #include "imgfeatures.h"
 #include "utils.h"
@@ -23,7 +24,7 @@ Version: 1.1.2-20100521
 
 #include <stdio.h>
 
-/******************************** Globals ************************************/
+// Globals
 
 char* img_file_name = "..\\beaver.png";
 char* out_file_name  = "..\\beaver.sift";;
@@ -38,7 +39,7 @@ int descr_width = SIFT_DESCR_WIDTH;
 int descr_hist_bins = SIFT_DESCR_HIST_BINS;
 
 
-/********************************** Main *************************************/
+// Main
 
 int main( int argc, char** argv )
 {
@@ -72,3 +73,4 @@ int main( int argc, char** argv )
 		cvSaveImage( out_img_name, img, NULL );
 	return 0;
 }
+*/

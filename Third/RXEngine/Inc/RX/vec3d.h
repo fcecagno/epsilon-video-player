@@ -39,18 +39,6 @@ public:
 	vec3d(const color &c);
 	vec3d();
 
-	// provisory
-	// C3::Math::vec3 toC3Math() 
-	// {
-	// 	return C3::Math::vec3(x, y, z);
-	// }
-	// void fromC3Math(C3::Math::vec3 v)
-	// {
-	// 	x = v.x;
-	// 	y = v.y;
-	// 	z = v.z;
-	// }
-
 	double operator[](int id) const;
 
 	// Norm & Squared norm
@@ -81,10 +69,8 @@ public:
 	vec3d operator-=(const vec3d &v);
 	vec3d operator=(const vec3d &v);
 
-	// Multiplication by scalar
+	// Multiplication/Division by scalar
 	vec3d operator*=(const double &f);
-
-	// Division by scalar
 	vec3d operator/=(const double &f);
 	vec3d operator/(const double &f);
 

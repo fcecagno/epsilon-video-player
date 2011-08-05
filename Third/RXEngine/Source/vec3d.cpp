@@ -108,7 +108,7 @@ vec3d vec3d::operator=(const vec3d &v)
 	return *this; 
 }
 
-// Multiplication by scalar
+// Multiplication/Division by scalar
 vec3d vec3d::operator*=(const double &f)
 {
 	x *= f;
@@ -116,18 +116,6 @@ vec3d vec3d::operator*=(const double &f)
 	z *= f;
 	return *this; 
 }
-
-vec3d RX::operator*(const double &f, const vec3d &v)
-{
-    return vec3d(v.x*f, v.y*f, v.z*f);
-}
-
-vec3d RX::operator*(const vec3d &v, const double &f)
-{
-    return vec3d(v.x*f, v.y*f, v.z*f);
-}
-
-// Division by scalar
 vec3d vec3d::operator/=(const double &f)
 {
 	x /= f;
@@ -139,6 +127,16 @@ vec3d vec3d::operator/=(const double &f)
 vec3d vec3d::operator/(const double &f)
 {
 	return vec3d(x/f, y/f, z/f);
+}
+
+vec3d RX::operator*(const double &f, const vec3d &v)
+{
+    return vec3d(v.x*f, v.y*f, v.z*f);
+}
+
+vec3d RX::operator*(const vec3d &v, const double &f)
+{
+    return vec3d(v.x*f, v.y*f, v.z*f);
 }
 
 ostream& RX::operator<<(ostream &out, vec3d v)

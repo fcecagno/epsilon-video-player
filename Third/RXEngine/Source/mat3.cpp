@@ -54,7 +54,7 @@ mat3::~mat3()
 {
 }
 
-// Multiply matrices
+// Matrices
 mat3 mat3::operator*(const mat3 &other) const
 {
 	mat3 r;
@@ -68,6 +68,51 @@ mat3 mat3::operator*(const mat3 &other) const
 		}
 	}
 	return r;
+}
+mat3 mat3::operator+(const mat3 &other) const
+{
+	mat3 r;
+	for(int i = 0; i < 3; ++i)
+		for(int j = 0; j < 3; ++j)
+			r._m[i][j] = _m[i][j] + other._m[i][j];
+	return r;
+}
+
+mat3 mat3::operator-(const mat3 &other) const
+{
+	mat3 r;
+	for(int i = 0; i < 3; ++i)
+		for(int j = 0; j < 3; ++j)
+			r._m[i][j] = _m[i][j] - other._m[i][j];
+	return r;
+}
+
+mat3 mat3::operator/(const float f) const
+{
+	mat3 r;
+	for(int i = 0; i < 3; ++i)
+		for(int j = 0; j < 3; ++j)
+			r._m[i][j] = _m[i][j]/f;
+	return r;
+}
+
+mat3 mat3::operator*(const float f) const
+{
+	mat3 r;
+	for(int i = 0; i < 3; ++i)
+		for(int j = 0; j < 3; ++j)
+			r._m[i][j] = _m[i][j]*f;
+	return r;
+}
+
+mat3 mat3::operator*=(const float f)
+{
+	for(int i = 0; i < 3; ++i) {
+		for(int j = 0; j < 3; ++j) {
+			_m[i][j] *= f;
+		}
+	}
+	return *this;
 }
 
 mat3 mat3::operator/=(const float f)

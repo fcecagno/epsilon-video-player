@@ -7,7 +7,9 @@ third/homography/debug
 third/rxengine/third/
 source/generatedfiles/
 sourceold/generatedfiles/
+*debug*
 *.vcxproj*
+*corresp*
 *ipch*
 *.sln
 *.suo
