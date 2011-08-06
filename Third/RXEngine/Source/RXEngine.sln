@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RXEngine", "RXEngine.vcxproj", "{4A3FD71F-5508-43B8-BA39-BCAECDC4786E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		DebugVS2008|Win32 = DebugVS2008|Win32
+		Release|Win32 = Release|Win32
+		ReleaseVS2008|Win32 = ReleaseVS2008|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A3FD71F-5508-43B8-BA39-BCAECDC4786E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4A3FD71F-5508-43B8-BA39-BCAECDC4786E}.Debug|Win32.Build.0 = Debug|Win32
+		{4A3FD71F-5508-43B8-BA39-BCAECDC4786E}.DebugVS2008|Win32.ActiveCfg = DebugVS2008|Win32
+		{4A3FD71F-5508-43B8-BA39-BCAECDC4786E}.DebugVS2008|Win32.Build.0 = DebugVS2008|Win32
+		{4A3FD71F-5508-43B8-BA39-BCAECDC4786E}.Release|Win32.ActiveCfg = Release|Win32
+		{4A3FD71F-5508-43B8-BA39-BCAECDC4786E}.Release|Win32.Build.0 = Release|Win32
+		{4A3FD71F-5508-43B8-BA39-BCAECDC4786E}.ReleaseVS2008|Win32.ActiveCfg = DebugVS2008|Win32
+		{4A3FD71F-5508-43B8-BA39-BCAECDC4786E}.ReleaseVS2008|Win32.Build.0 = DebugVS2008|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
