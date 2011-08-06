@@ -4,7 +4,6 @@ third/sift/match/debug
 third/ransac/source/SVD/Release
 third/matrix/debug
 third/homography/debug
-third/rxengine/third/
 source/generatedfiles/
 sourceold/generatedfiles/
 *debug*
